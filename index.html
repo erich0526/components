@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component</title>
+    <!-- 設定使用Google font特殊字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Accordion CSS-->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Caveat", cursive; /* 套用特殊字體 */
+        color: #343a40;
+        line-height: 1; /* 一倍行高 */
+      }
+      .accordion {
+        width: 700px;
+        margin: 100px auto;
+
+        /* flex */
+        display: flex;
+        flex-direction: column; /* 元素垂直排列 */
+        gap: 24px;
+      }
+      .number,
+      .text {
+        font-size: 24px;
+        color: #0066ff;
+        font-weight: 500;
+      }
+      .text {
+        color: #757575;
+      }
+      .item {
+        box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.2);
+        padding: 24px;
+        column-gap: 24px;
+        row-gap: 32px;
+        border: 1px solid #868e96;
+        border-radius: 2px;
+
+        /* grid */
+        display: grid;
+        grid-template-columns: auto 1fr auto; /* 設定有三行 */
+        grid-template-rows: auto 1fr; /* 設定有兩列 */
+        gap: 12px; /* 設定間距12px */
+      }
+      .icon {
+        width: 24px;
+        height: 24px;
+        stroke: #0066ff;
+      }
+      .hidden_box {
+        grid-column: 2; /* 定位在第二行 */
+        grid-row: 2; /* 定位在第二列 */
+        display: none; /* 隱藏內文 */
+      }
+      .hidden_box p {
+        line-height: 1.5;
+        margin-bottom: 24px;
+      }
+      .hidden_box ul {
+        margin-left: 24px;
+        color: #868e96;
+
+        /* flex */
+        display: flex;
+        flex-direction: column; /* 元素垂直排列 */
+        gap: 12px;
+      }
+      .open {
+        border-top: 12px solid #0066ff;
+      }
+      .open .hidden_box {
+        display: block; /* 顯示內文 */
+      }
+      .open .number,
+      .open .text {
+        color: #0066ff;
+      }
+    </style>
+
+    <!-- Carousel CSS-->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Caveat", cursive;
+        line-height: 1;
+      }
+      .carousel {
+        background-color: #0066ff;
+        margin: 100px auto;
+        width: 800px;
+        padding-right: 40px;
+        padding-left: 80px;
+        color: rgb(255, 255, 255);
+        border-radius: 10px;
+
+        /* flex */
+        display: flex;
+        align-items: center; /* 垂直置中 */
+        justify-content: center; /* 水平置中 */
+        column-gap: 50px;
+        position: relative;
+      }
+      blockquote {
+        margin-top: 12px;
+        margin-bottom: 12px;
+      }
+      .quote_text {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 32px;
+      }
+      .quote_author {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      .quote_job {
+        font-size: 16px;
+      }
+      .btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        position: absolute;
+        border: none;
+        cursor: pointer; /* 游標從箭頭變成手指 */
+
+        /* flex */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon {
+        stroke: #0066ff;
+        width: 24px;
+        height: 24px;
+      }
+      .btn_left {
+        left: 0;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      }
+      .btn_right {
+        right: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      }
+      img {
+        border-radius: 15px;
+        width: 250px;
+        height: 250px;
+        transform: scale(1.25);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      }
+      .dots {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 32px);
+        display: flex;
+        gap: 12px;
+      }
+      .dot {
+        height: 12px;
+        width: 12px;
+        background-color: #fff;
+        border: 2px solid #0066ff;
+        border-radius: 50%;
+        cursor: pointer; /* 游標從箭頭變成手指 */
+      }
+      .dot_fill {
+        background-color: #0066ff;
+      }
+    </style>
+
+    <!-- Table CSS-->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Caveat", cursive;
+        line-height: 1;
+      }
+      table {
+        width: 800px;
+        margin: 100px auto;
+        border: 1px solid rgb(200, 200, 200);
+        font-size: 24px;
+        border-collapse: collapse; /* 合併元素間的邊界 */
+      }
+      td,
+      th {
+        border: 1px solid rgb(200, 200, 200);
+        text-align: left;
+        padding: 16px 24px;
+        width: 25%;
+      }
+      thead tr {
+        background-color: #0066ff;
+        color: #ffffff;
+      }
+      /* 用Pseudo classes選取tbody裡的基數列 */
+      tbody tr:nth-child(odd) {
+        background-color: #dedede;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Accordion -->
+    <div class="accordion">
+      <!-- 第一項（隱藏） -->
+      <div class="item">
+        <!-- 標題 -->
+        <p class="number">01</p>
+        <p class="text">Project net worth over time</p>
+        <!-- 展開按鈕 -->
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+        <!-- 內文 -->
+        <div class="hidden_box">
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora in
+            odio fugiat tempore dolorem quas aliquam voluptatibus dicta
+            praesentium iste necessitatibus, repudiandae sint incidunt ipsa
+            natus distinctio, architecto inventore perspiciatis.
+          </p>
+          <ul>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+      </div>
+      <!-- 第二項（顯示） -->
+      <div class="item open">
+        <!-- 標題 -->
+        <p class="number">02</p>
+        <p class="text">Incorporate the essential data</p>
+        <!-- 展開按鈕 -->
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+        <!-- 內文 -->
+        <div class="hidden_box">
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora in
+            odio fugiat tempore dolorem quas aliquam voluptatibus dicta
+            praesentium iste necessitatibus, repudiandae sint incidunt ipsa
+            natus distinctio, architecto inventore perspiciatis.
+          </p>
+          <ul>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+      </div>
+      <!-- 第三項（隱藏） -->
+      <div class="item">
+        <!-- 標題 -->
+        <p class="number">03</p>
+        <p class="text">Reflect your all-in cost</p>
+        <!-- 展開按鈕 -->
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+        <!-- 內文 -->
+        <div class="hidden_box">
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora in
+            odio fugiat tempore dolorem quas aliquam voluptatibus dicta
+            praesentium iste necessitatibus, repudiandae sint incidunt ipsa
+            natus distinctio, architecto inventore perspiciatis.
+          </p>
+          <ul>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel">
+      <!-- 輪播器圖片 -->
+      <img src="/picture.jpg" alt="pic" />
+      <!-- 輪播器內文 -->
+      <blockquote class="quote">
+        <p class="quote_text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
+          nobis earum error deleniti ratione inventore maxime, quisquam nam
+          accusantium sint non laborum cupiditate laboriosam quas omnis ipsa
+          ullam eveniet autem.
+        </p>
+        <p class="quote_author">Eric</p>
+        <p class="quote_job">Student</p>
+      </blockquote>
+      <!-- 左邊的上一頁按鈕 -->
+      <button class="btn btn_left">
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 19.5L8.25 12l7.5-7.5"
+          />
+        </svg>
+      </button>
+      <!-- 右邊的下一頁按鈕 -->
+      <button class="btn btn_right">
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+          />
+        </svg>
+      </button>
+      <!-- 下面的四個點點 -->
+      <div class="dots">
+        <button class="dot dot_fill">&nbsp;</button>
+        <button class="dot">&nbsp;</button>
+        <button class="dot">&nbsp;</button>
+        <button class="dot">&nbsp;</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table>
+      <!-- 第一列 -->
+      <thead>
+        <tr>
+          <th>Chair</th>
+          <th>The Lain Back</th>
+          <th>The Worker Bee</th>
+          <th>The chair 4/2</th>
+        </tr>
+      </thead>
+      <!-- 第二列～第四列 -->
+      <tbody>
+        <!-- 第二列 -->
+        <tr>
+          <td>Width</td>
+          <td>80cm</td>
+          <td>60cm</td>
+          <td>220cm</td>
+        </tr>
+
+        <!-- 第三列 -->
+        <tr>
+          <td>Height</td>
+          <td>70cm</td>
+          <td>85cm</td>
+          <td>80cm</td>
+        </tr>
+
+        <!-- 第四列 -->
+        <tr>
+          <td>Weight</td>
+          <td>16kg</td>
+          <td>22kg</td>
+          <td>32kg</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
